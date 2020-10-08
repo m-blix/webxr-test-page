@@ -84,13 +84,37 @@ function initXR() {
   });
   document.querySelector('header').appendChild(xrButton.domElement);
 
+  xrButton.domElement.addEventListener('click', function(){
+    console.log(`'Enter VR' button clicked`);
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const auto = urlParams.has('auto') ? parseInt(urlParams.get('auto'), 10) : 1;
+  let delay = urlParams.has('delay') ? parseInt(urlParams.get('delay'), 10) : 5;
+  delay = Math.max(1, delay);
+
+  if (auto === 1) {
+    console.log(`automatically begining XR after ${delay}s`);
+    let delaySecs = delay*1000;
+    setTimeout(function(){
+      console.log(`clicking 'Enter VR' button`);
+      xrButton.domElement.click();
+    }, delaySecs);
+  }
+
   // Is WebXR available on this UA?
   if (navigator.xr) {
     // If the device allows creation of exclusive sessions set it as the
     // target of the 'Enter XR' button.
     navigator.xr.isSessionSupported('immersive-vr').then((supported) => {
       xrButton.enabled = supported;
+
+      if (!supported) {
+        console.log(`can't begin XR, VR not supported`);
+      }
     });
+  } else {
+    console.log(`no navigator.xr`);
   }
 }
 
