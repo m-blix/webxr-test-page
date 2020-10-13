@@ -88,6 +88,7 @@ function initXR() {
     onRequestSession: onRequestSession,
     onEndSession: onEndSession
   });
+  xrButton.enabled = true;
   document.querySelector('header').appendChild(xrButton.domElement);
 
   xrButton.domElement.addEventListener('click', function(){
