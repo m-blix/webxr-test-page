@@ -108,6 +108,7 @@ function initXR() {
     }, delaySecs);
   }
 
+  /*
   // Is WebXR available on this UA?
   if (navigator.xr) {
     if (skipSupportCheck) {
@@ -126,7 +127,7 @@ function initXR() {
     });
   } else {
     log(`no navigator.xr`);
-  }
+  }*/
 }
 
 // Called when the user selects a device to present to. In response we
@@ -260,7 +261,7 @@ function onXRFrame(t, frame) {
 }
 
 // Start the XR application.
-//initXR();
+initXR();
 </script>
 </body>
 </html>
