@@ -92,7 +92,7 @@ function initXR() {
   document.querySelector('header').appendChild(xrButton.domElement);
 
   xrButton.domElement.addEventListener('click', function(){
-    log(`'Enter VR' button clicked`);
+    log(`'Enter AR' button clicked`);
   });
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -135,7 +135,7 @@ function initXR() {
 // will request an exclusive session from that device.
 function onRequestSession() {
   log('onRequestSession');
-  return navigator.xr.requestSession('immersive-vr').then(onSessionStarted);
+  return navigator.xr.requestSession('immersive-ar').then(onSessionStarted);
 }
 
 // Called when we've successfully acquired a XRSession. In response we
