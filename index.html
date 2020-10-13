@@ -73,6 +73,12 @@ let scene = new Scene();
 scene.addNode(new Gltf2Node({url: 'media/gltf/space/space.gltf'}));
 scene.addNode(new SkyboxNode({url: 'media/textures/milky-way-4k.png'}));
 
+let skipSupportCheck = true;
+
+function log(msg) {
+  console.log('MKMK: ' + msg);
+}
+
 // Checks to see if WebXR is available and, if so, queries a list of
 // XRDevices that are connected to the system.
 function initXR() {
@@ -85,7 +91,7 @@ function initXR() {
   document.querySelector('header').appendChild(xrButton.domElement);
 
   xrButton.domElement.addEventListener('click', function(){
-    console.log(`'Enter VR' button clicked`);
+    log(`'Enter VR' button clicked`);
   });
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -94,39 +100,46 @@ function initXR() {
   delay = Math.max(1, delay);
 
   if (auto === 1) {
-    console.log(`automatically begining XR after ${delay}s`);
+    log(`automatically begining XR after ${delay}s`);
     let delaySecs = delay*1000;
     setTimeout(function(){
-      console.log(`clicking 'Enter VR' button`);
+      log(`clicking 'Enter VR' button`);
       xrButton.domElement.click();
     }, delaySecs);
   }
 
   // Is WebXR available on this UA?
   if (navigator.xr) {
+    if (skipSupportCheck) {
+      log('skip support check');
+      xrButton.enabled = true;
+      return;
+    }
     // If the device allows creation of exclusive sessions set it as the
     // target of the 'Enter XR' button.
     navigator.xr.isSessionSupported('immersive-vr').then((supported) => {
       xrButton.enabled = supported;
 
       if (!supported) {
-        console.log(`can't begin XR, VR not supported`);
+        log(`can't begin XR, VR not supported`);
       }
     });
   } else {
-    console.log(`no navigator.xr`);
+    log(`no navigator.xr`);
   }
 }
 
 // Called when the user selects a device to present to. In response we
 // will request an exclusive session from that device.
 function onRequestSession() {
+  log('onRequestSession');
   return navigator.xr.requestSession('immersive-vr').then(onSessionStarted);
 }
 
 // Called when we've successfully acquired a XRSession. In response we
 // will set up the necessary session state and kick off the frame loop.
 function onSessionStarted(session) {
+  log('onSessionStarted');
   // This informs the 'Enter XR' button that the session has started and
   // that it should display 'Exit XR' instead.
   xrButton.setSession(session);
