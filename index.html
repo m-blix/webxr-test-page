@@ -48,6 +48,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   </main>
 
 <script type="module">
+function log(msg) {
+  console.log('MKMK: ' + msg);
+}
+
+log('webxr-test-page');
+
 import {WebXRButton} from './js/util/webxr-button.js';
 import {Scene} from './js/render/scenes/scene.js';
 import {Renderer, createWebGLContext} from './js/render/core/renderer.js';
@@ -75,13 +81,10 @@ scene.addNode(new SkyboxNode({url: 'media/textures/milky-way-4k.png'}));
 
 let skipSupportCheck = true;
 
-function log(msg) {
-  console.log('MKMK: ' + msg);
-}
-
 // Checks to see if WebXR is available and, if so, queries a list of
 // XRDevices that are connected to the system.
 function initXR() {
+  log('initXR');
   // Adds a helper button to the page that indicates if any XRDevices are
   // available and let's the user pick between them if there's multiple.
   xrButton = new WebXRButton({
@@ -92,7 +95,7 @@ function initXR() {
   document.querySelector('header').appendChild(xrButton.domElement);
 
   xrButton.domElement.addEventListener('click', function(){
-    log(`'Enter AR' button clicked`);
+    log(`'Enter XR' button clicked`);
   });
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -104,7 +107,7 @@ function initXR() {
     log(`automatically begining XR after ${delay}s`);
     let delaySecs = delay*1000;
     setTimeout(function(){
-      log(`clicking 'Enter VR' button`);
+      log(`clicking 'Enter XR' button`);
       xrButton.domElement.click();
     }, delaySecs);
   }
