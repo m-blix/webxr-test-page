@@ -35,9 +35,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   <header>
     <details open>
-      <summary>Immersive VR Session</summary>
+      <summary>Immersive XR Session</summary>
       <p>
-        This sample demonstrates how to use an 'immersive-vr' XRSession to
+        This sample demonstrates how to use an 'immersive-{x}r' XRSession to
         present a simple WebGL scene to an XR device. The scene is not
         rendered to the page.
       </p>
@@ -81,6 +81,9 @@ scene.addNode(new SkyboxNode({url: 'media/textures/milky-way-4k.png'}));
 
 let skipSupportCheck = true;
 
+const VALID_TYPES = ['ar', 'vr'];
+let type = VALID_TYPES[0];
+
 // Checks to see if WebXR is available and, if so, queries a list of
 // XRDevices that are connected to the system.
 function initXR() {
@@ -102,6 +105,13 @@ function initXR() {
   const auto = urlParams.has('auto') ? parseInt(urlParams.get('auto'), 10) : 1;
   let delay = urlParams.has('delay') ? parseInt(urlParams.get('delay'), 10) : 5;
   delay = Math.max(1, delay);
+
+  if (urlParams.has('type')) {
+    let _type = urlParams.get('type');
+    if (VALID_TYPES.includes(_type)) {
+      type = 'immersive-'+_type;
+    }
+  }
 
   if (auto === 1) {
     log(`automatically begining XR after ${delay}s`);
@@ -137,8 +147,8 @@ function initXR() {
 // Called when the user selects a device to present to. In response we
 // will request an exclusive session from that device.
 function onRequestSession() {
-  log('onRequestSession');
-  return navigator.xr.requestSession('immersive-ar').then(onSessionStarted);
+  log('onRequestSession: ' + type);
+  return navigator.xr.requestSession(type).then(onSessionStarted);
 }
 
 // Called when we've successfully acquired a XRSession. In response we
@@ -193,6 +203,7 @@ function onEndSession(session) {
 // At this point the session object is no longer usable and should be
 // discarded.
 function onSessionEnded(event) {
+  log('onSessionEnded');
   xrButton.setSession(null);
 
   // In this simple case discard the WebGL context too, since we're not
