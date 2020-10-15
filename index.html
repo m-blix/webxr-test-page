@@ -88,18 +88,7 @@ let type = VALID_TYPES[0];
 // XRDevices that are connected to the system.
 function initXR() {
   log('initXR');
-  // Adds a helper button to the page that indicates if any XRDevices are
-  // available and let's the user pick between them if there's multiple.
-  xrButton = new WebXRButton({
-    onRequestSession: onRequestSession,
-    onEndSession: onEndSession
-  });
-  xrButton.enabled = true;
-  document.querySelector('header').appendChild(xrButton.domElement);
 
-  xrButton.domElement.addEventListener('click', function(){
-    log(`'Enter XR' button clicked`);
-  });
 
   const urlParams = new URLSearchParams(window.location.search);
   const auto = urlParams.has('auto') ? parseInt(urlParams.get('auto'), 10) : 1;
@@ -109,9 +98,27 @@ function initXR() {
   if (urlParams.has('type')) {
     let _type = urlParams.get('type');
     if (VALID_TYPES.includes(_type)) {
-      type = 'immersive-'+_type;
+      type = _type;
     }
   }
+
+  // Adds a helper button to the page that indicates if any XRDevices are
+  // available and let's the user pick between them if there's multiple.
+  let opts = {
+    onRequestSession: onRequestSession,
+    onEndSession: onEndSession,
+    textEnterXRTitle: "START "+type.toUpperCase(),
+    textXRNotFoundTitle: +" NOT FOUND"+type.toUpperCase(),
+    textExitXRTitle: "EXIT  "+type.toUpperCase(),
+  };
+
+  xrButton = new WebXRButton(opts);
+  xrButton.enabled = true; // temp
+  document.querySelector('header').appendChild(xrButton.domElement);
+
+  xrButton.domElement.addEventListener('click', function(){
+    log(`'Enter XR' button clicked`);
+  });
 
   if (auto === 1) {
     log(`automatically begining XR after ${delay}s`);
@@ -132,7 +139,7 @@ function initXR() {
     }
     // If the device allows creation of exclusive sessions set it as the
     // target of the 'Enter XR' button.
-    navigator.xr.isSessionSupported('immersive-vr').then((supported) => {
+    navigator.xr.isSessionSupported('immersive-'+type).then((supported) => {
       xrButton.enabled = supported;
 
       if (!supported) {
@@ -148,7 +155,7 @@ function initXR() {
 // will request an exclusive session from that device.
 function onRequestSession() {
   log('onRequestSession: ' + type);
-  return navigator.xr.requestSession(type).then(onSessionStarted);
+  return navigator.xr.requestSession('immersive-'+type).then(onSessionStarted);
 }
 
 // Called when we've successfully acquired a XRSession. In response we
