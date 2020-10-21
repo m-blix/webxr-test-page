@@ -26,6 +26,7 @@ details summary {
 details[open] summary {
   font-size: 1.4em;
   font-weight: bold;
+  color: blue;
 }
 
 header h1 {
