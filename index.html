@@ -81,7 +81,7 @@ scene.addNode(new SkyboxNode({url: 'media/textures/milky-way-4k.png'}));
 
 let skipSupportCheck = true;
 
-const VALID_TYPES = ['ar', 'vr'];
+const VALID_TYPES = ['vr', 'ar'];
 let type = VALID_TYPES[0];
 
 // Checks to see if WebXR is available and, if so, queries a list of
@@ -101,6 +101,7 @@ function initXR() {
       type = _type;
     }
   }
+  log('type: ' + type);
 
   // Adds a helper button to the page that indicates if any XRDevices are
   // available and let's the user pick between them if there's multiple.
