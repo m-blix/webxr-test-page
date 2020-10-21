@@ -91,7 +91,7 @@ function initXR() {
 
 
   const urlParams = new URLSearchParams(window.location.search);
-  const auto = urlParams.has('auto') ? parseInt(urlParams.get('auto'), 10) : 1;
+  const auto = urlParams.has('auto') ? parseInt(urlParams.get('auto'), 10) : 0;
   let delay = urlParams.has('delay') ? parseInt(urlParams.get('delay'), 10) : 5;
   delay = Math.max(1, delay);
 
