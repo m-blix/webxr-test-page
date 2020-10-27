@@ -80,7 +80,7 @@ let scene = new Scene();
 scene.addNode(new Gltf2Node({url: 'media/gltf/space/space.gltf'}));
 scene.addNode(new SkyboxNode({url: 'media/textures/milky-way-4k.png'}));
 
-let skipSupportCheck = true;
+let skipSupportCheck = false;
 
 const VALID_TYPES = ['vr', 'ar'];
 let type = VALID_TYPES[0];
@@ -131,7 +131,7 @@ function initXR() {
     }, delaySecs);
   }
 
-  /*
+
   // Is WebXR available on this UA?
   if (navigator.xr) {
     if (skipSupportCheck) {
@@ -150,7 +150,7 @@ function initXR() {
     });
   } else {
     log(`no navigator.xr`);
-  }*/
+  }
 }
 
 // Called when the user selects a device to present to. In response we
