@@ -37,16 +37,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   <header>
     <details open>
       <summary>Immersive XR Session</summary>
-      <p>
+      <p class="text">
         This sample demonstrates how to use an 'immersive-{x}r' XRSession to
         present a simple WebGL scene to an XR device. The scene is not
         rendered to the page.
       </p>
     </details>
   </header>
-  <main style='text-align: center;'>
-    <p>Click 'Enter XR' to see content</p>
-  </main>
 
 <script type="module">
 function log(msg) {
@@ -120,6 +117,7 @@ function initXR() {
 
   xrButton.domElement.addEventListener('click', function(){
     log(`'Enter XR' button clicked`);
+    xrButton.domElement.classList.add('clicked');
   });
 
   if (auto === 1) {
