@@ -221,8 +221,11 @@ function onSessionEnded(event) {
 }
 
 // Called every time the XRSession requests that a new frame be drawn.
+let k = 0;
 function onXRFrame(t, frame) {
   let session = frame.session;
+
+  log('onXRFrame: ' + k++);
 
   // Per-frame scene setup. Nothing WebXR specific here.
   scene.startFrame();
