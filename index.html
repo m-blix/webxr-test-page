@@ -225,7 +225,9 @@ let k = 0;
 function onXRFrame(t, frame) {
   let session = frame.session;
 
-  log('onXRFrame: ' + k++);
+  if (k % 500 === 0) {
+    log('onXRFrame: ' + k++);
+  }
 
   // Per-frame scene setup. Nothing WebXR specific here.
   scene.startFrame();
